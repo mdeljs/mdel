@@ -64,10 +64,10 @@ var INTERNAL = '__MDEL__';
  * }
  *
  * const userStore = new UserModel();
- * const unSubscribe = userStore.subscribe(()=>{
+ * const unSubscribe = userStore.subscribe(function(){
  *    const prevUid = userStore.data.uid;
  *
- *    return ()=>{
+ *    return function(){
  *        console.log(prevUid,userStore.data.uid);
  *    }
  * });

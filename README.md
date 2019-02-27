@@ -62,17 +62,17 @@ userStore.login();
 unSubscribe();
 
 function createUserStore() {
-  var model = new Model({
+  var store = new Model({
     uid:0
   });
   
-  model.login = function(){
-    model.update({
+  store.login = function(){
+    store.update({
       uid:1
     });
   };
   
-  return model;
+  return store;
 }
 ```
 
