@@ -105,6 +105,7 @@ export default class ListModel extends Model{
 }
 
 ///login-log.jsx
+import React from 'react'
 import {observe} from 'mdel-react'
 import ListModel from '../model/list-model'
 
@@ -126,21 +127,50 @@ class UserLoginLog extends React.Component{
         if(this.mUser.data.uid < 1){
             return <div>你还没有登录</div>
         }
+        
         if(this.mList.data.loading){
             return <div>loading</div>
         }
-        
         return this.mList.data.list.map(function(item,index) {
           return <div key={index}>{item.date}</div>
         })
     }
 }
 
-export default 
+export default UserLoginLog;
 
 ```
 
 * 无状态组件
+
+```jsx harmony
+import React from 'react'
+import {observe} from 'mdel-react'
+
+const LoginLogList = observe(function({mUser,mList}) {
+   if(mUser.data.uid < 1){
+        return <div>你还没有登录</div>
+   }
+   
+   if(mList.data.loading){
+        return <div>loading</div>
+   }     
+   return mList.data.list.map(function(item,index) {
+        return <div key={index}>{item.date}</div>
+   })
+});
+
+class UserLoginLog extends React.Component{
+     mUser = userModel;
+     mList = new ListModel();
+     
+     render(){
+         return <LoginLogList mUser={this.mUser} mList={this.mList}/>
+     }
+}
+
+export default UserLoginLog;
+```
 
 ## API
 
