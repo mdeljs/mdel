@@ -174,29 +174,30 @@ export default UserLoginLog;
 
 ## API
 
-### 语法
+### Model
+#### 语法
 
 `const model = new Model(initData:object)`
 
 数据模型
 
-### 实例属性
+#### 实例属性
 
-#### data
+##### data
 
 返回数据（只读）
 
 * data的数据结构应该在初始的时候时确定
 
-### 实例方法
+#### 实例方法
 
-#### update
+##### update
 
 `model.update(data: (() => void) | object | null):void`
 
 更新数据，你必须使用update来更新data
 
-#### subscribe
+##### subscribe
 
 `model.subscribe(listener: () => () => void):unSubscribe`
 
