@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": "ie >= 9"
+        }
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "@babel/plugin-transform-typescript",
+        "babel-plugin-transform-es2015-modules-commonjs",
+        "transform-class-properties"
+      ]
+    }
+  }
+}

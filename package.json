@@ -1,0 +1,45 @@
+{
+  "name": "mdel",
+  "version": "3.3.0",
+  "description": "数据管理器",
+  "license": "MIT",
+  "repository": "github:mdeljs/mdel",
+  "bugs": "https://github.com/mdeljs/mdel/issues",
+  "keywords": [
+    "mdel",
+    "model",
+    "react"
+  ],
+  "author": {
+    "name": "yujingwyh",
+    "email": "yujingwyh@163.com"
+  },
+  "scripts": {
+    "build": "rollup --config",
+    "test": "jest --config=jest.config.json"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "es",
+    "umd"
+  ],
+  "main": "es/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-typescript": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@types/jest": "^23.3.8",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "jest": "^23.6.0",
+    "rollup": "^0.68.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-minify": "^1.0.3",
+    "rollup-plugin-typescript2": "^0.19.2",
+    "typescript": "^3.1.1"
+  }
+}
