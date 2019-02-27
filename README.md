@@ -205,6 +205,14 @@ export default UserLoginLog;
 
 * listener是一个函数，在update调用之前执行，并返回一个函数，在update调用之后执行
 
+### getIsModel
+
+#### 语法
+
+`const isModel = getIsModel(target:any):boolean;`
+
+获取是否是数据模型实例
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)

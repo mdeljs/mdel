@@ -106,6 +106,6 @@ export class Model<D extends TData = {}> {
  * @param target {*} 待检测目标
  * @return {boolean}
  */
-export function getIsModel(target: any) {
+export function getIsModel(target: any):boolean {
   return target && target["INTERNAL"] === INTERNAL;
 }
