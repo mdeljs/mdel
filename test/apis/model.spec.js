@@ -1,4 +1,4 @@
-import {getIsModel, Model} from "../../src/apis/model";
+import {getIsStore, Model} from "../../src/apis/model";
 
 describe('model', function () {
   it('test construction', function () {
@@ -6,56 +6,56 @@ describe('model', function () {
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
   });
   it('test update', function () {
-    const model = new Model({a: 1});
+    const store = new Model({a: 1});
 
-    expect(() => model.update(1)).toThrow('data is not a valid parameter');
-    expect(() => model.update(() => {
+    expect(() => store.update(1)).toThrow('data is not a valid parameter');
+    expect(() => store.update(() => {
     })).not.toThrow();
-    expect(() => model.update({})).not.toThrow();
-    expect(() => model.update(null)).not.toThrow();
+    expect(() => store.update({})).not.toThrow();
+    expect(() => store.update(null)).not.toThrow();
 
-    model.update({a: 2});
-    expect(model.data).toEqual({a: 2});
+    store.update({a: 2});
+    expect(store.data).toEqual({a: 2});
 
-    model.update(null);
-    expect(model.data).toEqual({a: 2});
+    store.update(null);
+    expect(store.data).toEqual({a: 2});
 
-    model.update(function () {
+    store.update(function () {
       this.data.a = 1;
     });
-    expect(model.data).toEqual({a: 1});
+    expect(store.data).toEqual({a: 1});
   });
   it('test basic subscribe', function () {
-    const model = new Model({});
+    const store = new Model({});
 
-    expect(() => model.subscribe(1)).toThrow('listener is not a function');
+    expect(() => store.subscribe(1)).toThrow('listener is not a function');
 
-    const unSubscribe = model.subscribe(function () {
+    const unSubscribe = store.subscribe(function () {
     });
-    expect(model.pvtListeners.length).toBe(1);
+    expect(store.pvtListeners.length).toBe(1);
 
     unSubscribe();
-    expect(model.pvtListeners.length).toBe(0);
+    expect(store.pvtListeners.length).toBe(0);
   });
 
   it('test listener call', function f() {
-    const model = new Model({uid: 0});
+    const store = new Model({uid: 0});
     const beforeCb = jest.fn();
     const afterCb = jest.fn();
 
     let beforeUid, afterUid;
 
-    model.subscribe(function (...beforeArgs) {
+    store.subscribe(function (...beforeArgs) {
       beforeCb(...beforeArgs);
-      beforeUid = model.data.uid;
+      beforeUid = store.data.uid;
 
       return function (...afterArgs) {
         afterCb(...afterArgs);
-        afterUid = model.data.uid;
+        afterUid = store.data.uid;
       };
     });
 
-    model.update({uid: 1});
+    store.update({uid: 1});
 
     expect(beforeCb.mock.calls.length).toBe(1);
     expect(afterCb.mock.calls.length).toBe(1);
@@ -64,15 +64,15 @@ describe('model', function () {
     expect(afterUid).toBe(1);
   });
 
-  it('test getIsModel', function () {
-    expect(getIsModel(null)).toBeFalsy();
-    expect(getIsModel({})).toBeFalsy();
-    expect(getIsModel(function () {
+  it('test getIsStore', function () {
+    expect(getIsStore(null)).toBeFalsy();
+    expect(getIsStore({})).toBeFalsy();
+    expect(getIsStore(function () {
 
     })).toBeFalsy();
 
-    expect(getIsModel(new Model({}))).toBeTruthy();
-    expect(getIsModel(new class extends Model {
+    expect(getIsStore(new Model({}))).toBeTruthy();
+    expect(getIsStore(new class extends Model {
       constructor() {
         super({});
       }

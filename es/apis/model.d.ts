@@ -19,15 +19,15 @@ export declare type TUnSubscribe = () => void;
  *    }
  * }
  *
- * const userModel = new UserModel();
- * const unSubscribe = userModel.subscribe(()=>{
- *    const prevUid = userModel.data.uid;
+ * const userStore = new UserModel();
+ * const unSubscribe = userStore.subscribe(()=>{
+ *    const prevUid = userStore.data.uid;
  *
  *    return ()=>{
- *        console.log(prevUid,userModel.data.uid);
+ *        console.log(prevUid,userStore.data.uid);
  *    }
  * });
- * userModel.login();
+ * userStore.login();
  * unSubscribe();
  */
 export declare class Model<D extends TData = {}> {
@@ -49,8 +49,8 @@ export declare class Model<D extends TData = {}> {
     subscribe(listener: TListener): TUnSubscribe;
 }
 /**
- * 获取是否是模型
+ * 获取是否是数据容器
  * @param target {*} 待检测目标
  * @return {boolean}
  */
-export declare function getIsModel(target: any): boolean;
+export declare function getIsStore(target: any): boolean;

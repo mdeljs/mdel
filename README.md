@@ -28,17 +28,17 @@ class UserModel extends Model{
     }
 }
 
-const userModel = new UserModel();
-const unSubscribe = userModel.subscribe(()=>{
-    const prevUid = userModel.data.uid;
+const userStore = new UserModel();
+const unSubscribe = userStore.subscribe(()=>{
+    const prevUid = userStore.data.uid;
 
     return ()=>{
-        if(prevUid === 0 && userModel.data.uid > 0){
+        if(prevUid === 0 && userStore.data.uid > 0){
           console.log('您已登录');
         }
     }
 });
-userModel.login();
+userStore.login();
 unSubscribe();
 
 ```
@@ -46,22 +46,22 @@ unSubscribe();
 * es5
 ```javascript
 var Model = mdel.Model;
-var userModel = createUserModel();
+var userStore = createUserStore();
 
-const unSubscribe = userModel.subscribe(()=>{
-    const prevUid = userModel.data.uid;
+const unSubscribe = userStore.subscribe(()=>{
+    const prevUid = userStore.data.uid;
           
     return ()=>{
-        if(prevUid === 0 && userModel.data.uid > 0){
+        if(prevUid === 0 && userStore.data.uid > 0){
             console.log('您已登录');
         }
     }
 });
 
-userModel.login();
+userStore.login();
 unSubscribe();
 
-function createUserModel() {
+function createUserStore() {
   var model = new Model({
     uid:0
   });
@@ -111,27 +111,27 @@ import ListModel from '../model/list-model'
 
 @observe
 class UserLoginLog extends React.Component{
-    mUser = userModel;
-    mList = new ListModel();
+    sUser = userStore;
+    sList = new ListModel();
     
     componentDidMount(){
-        this.mList.setLoading(true);
+        this.sList.setLoading(true);
         
         getRequest('/api/user....').then(
-            data=>this.mList.setData(data),
-            ()=>this.mList.setLoading(false)
+            data=>this.sList.setData(data),
+            ()=>this.sList.setLoading(false)
         );
     }
     
     render(){
-        if(this.mUser.data.uid < 1){
+        if(this.sUser.data.uid < 1){
             return <div>你还没有登录</div>
         }
         
-        if(this.mList.data.loading){
+        if(this.sList.data.loading){
             return <div>loading</div>
         }
-        return this.mList.data.list.map(function(item,index) {
+        return this.sList.data.list.map(function(item,index) {
           return <div key={index}>{item.date}</div>
         })
     }
@@ -147,25 +147,25 @@ export default UserLoginLog;
 import React from 'react'
 import {observe} from 'mdel-react'
 
-const LoginLogList = observe(function({mUser,mList}) {
-   if(mUser.data.uid < 1){
+const LoginLogList = observe(function({sUser,sList}) {
+   if(sUser.data.uid < 1){
         return <div>你还没有登录</div>
    }
    
-   if(mList.data.loading){
+   if(sList.data.loading){
         return <div>loading</div>
    }     
-   return mList.data.list.map(function(item,index) {
+   return sList.data.list.map(function(item,index) {
         return <div key={index}>{item.date}</div>
    })
 });
 
 class UserLoginLog extends React.Component{
-     mUser = userModel;
-     mList = new ListModel();
+     sUser = userStore;
+     sList = new ListModel();
      
      render(){
-         return <LoginLogList mUser={this.mUser} mList={this.mList}/>
+         return <LoginLogList sUser={this.sUser} sList={this.sList}/>
      }
 }
 
@@ -177,7 +177,7 @@ export default UserLoginLog;
 ### Model
 #### 语法
 
-`const model = new Model(initData:object)`
+`const store = new Model(initData:object)`
 
 数据模型
 
@@ -205,13 +205,13 @@ export default UserLoginLog;
 
 * listener是一个函数，在update调用之前执行，并返回一个函数，在update调用之后执行
 
-### getIsModel
+### getIsStore
 
 #### 语法
 
-`const isModel = getIsModel(target:any):boolean;`
+`const isStore = getIsStore(target:any):boolean;`
 
-获取是否是数据模型实例
+获取是否是数据容器，也就是数据模型的实例
 
 ## License
 
