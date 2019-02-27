@@ -69,15 +69,15 @@
      *    }
      * }
      *
-     * const userModel = new UserModel();
-     * const unSubscribe = userModel.subscribe(()=>{
-     *    const prevUid = userModel.data.uid;
+     * const userStore = new UserModel();
+     * const unSubscribe = userStore.subscribe(()=>{
+     *    const prevUid = userStore.data.uid;
      *
      *    return ()=>{
-     *        console.log(prevUid,userModel.data.uid);
+     *        console.log(prevUid,userStore.data.uid);
      *    }
      * });
-     * userModel.login();
+     * userStore.login();
      * unSubscribe();
      */
     var Model = /** @class */ (function () {
@@ -134,19 +134,19 @@
         return Model;
     }());
     /**
-     * 获取是否是模型
+     * 获取是否是数据容器
      * @param target {*} 待检测目标
      * @return {boolean}
      */
-    function getIsModel(target) {
+    function getIsStore(target) {
         return target && target["INTERNAL"] === INTERNAL;
     }
 
-    var version = '3.3.0';
+    var version = '3.4.0';
 
     exports.default = Model;
     exports.Model = Model;
-    exports.getIsModel = getIsModel;
+    exports.getIsStore = getIsStore;
     exports.version = version;
     exports.isObject = isObject;
     exports.throwError = throwError;

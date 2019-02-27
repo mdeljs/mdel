@@ -29,10 +29,10 @@ class UserModel extends Model{
 }
 
 const userStore = new UserModel();
-const unSubscribe = userStore.subscribe(()=>{
+const unSubscribe = userStore.subscribe(function(){
     const prevUid = userStore.data.uid;
 
-    return ()=>{
+    return function(){
         if(prevUid === 0 && userStore.data.uid > 0){
           console.log('您已登录');
         }
@@ -48,10 +48,10 @@ unSubscribe();
 var Model = mdel.Model;
 var userStore = createUserStore();
 
-const unSubscribe = userStore.subscribe(()=>{
+const unSubscribe = userStore.subscribe(function(){
     const prevUid = userStore.data.uid;
           
-    return ()=>{
+    return function(){
         if(prevUid === 0 && userStore.data.uid > 0){
             console.log('您已登录');
         }
