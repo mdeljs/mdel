@@ -96,15 +96,12 @@ export default class ListModel extends Model{
   setLoading(status){
       this.update({loading:status})
   }
-  async getData(page){
-      this.setLoading(true);
-      const data = await getRequest('/api/user....');
-      
-      this.update({
+  setData(data){
+     this.update({
         loading:false,
         list:data
-      })
-  }
+     }) 
+  }  
 }
 
 ///login-log.jsx
@@ -117,7 +114,12 @@ class UserLoginLog extends React.Component{
     mList = new ListModel();
     
     componentDidMount(){
-        this.mList.getData(1);
+        this.mList.setLoading(true);
+        
+        getRequest('/api/user....').then(
+            data=>this.mList.setData(data),
+            ()=>this.mList.setLoading(false)
+        );
     }
     
     render(){
