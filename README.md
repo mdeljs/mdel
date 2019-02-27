@@ -76,6 +76,70 @@ function createUserModel() {
 }
 ```
 
+## 在react中使用
+
+详细文档 [链接](https://github.com/mdeljs/mdel-react)
+
+* 类组件
+
+```jsx harmony
+///list-model.js
+import {Model} from 'mdel';
+
+export default class ListModel extends Model{
+  constructor(){
+      super({
+        loading:false,
+        list:[]
+      })
+  }
+  setLoading(status){
+      this.update({loading:status})
+  }
+  async getData(page){
+      this.setLoading(true);
+      const data = await getRequest('/api/user....');
+      
+      this.update({
+        loading:false,
+        list:data
+      })
+  }
+}
+
+///login-log.jsx
+import {observe} from 'mdel-react'
+import ListModel from '../model/list-model'
+
+@observe
+class UserLoginLog extends React.Component{
+    mUser = userModel;
+    mList = new ListModel();
+    
+    componentDidMount(){
+        this.mList.getData(1);
+    }
+    
+    render(){
+        if(this.mUser.data.uid < 1){
+            return <div>你还没有登录</div>
+        }
+        if(this.mList.data.loading){
+            return <div>loading</div>
+        }
+        
+        return this.mList.data.list.map(function(item,index) {
+          return <div key={index}>{item.date}</div>
+        })
+    }
+}
+
+export default 
+
+```
+
+* 无状态组件
+
 ## API
 
 ### 语法
