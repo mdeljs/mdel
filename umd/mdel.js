@@ -143,7 +143,7 @@
         return target && target["sign"] === SIGN;
     }
 
-    var version = '3.5.0';
+    var version = '3.6.0';
 
     exports.default = Model;
     exports.Model = Model;

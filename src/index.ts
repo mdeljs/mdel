@@ -2,7 +2,7 @@ import {getIsStore, Model, TData, TListener, TUnSubscribe} from './apis/model'
 import isObject from './utils/isObject'
 import throwError from './utils/throwError'
 
-const version = '3.5.0';
+const version = '3.6.0';
 
 export default Model;
 export {

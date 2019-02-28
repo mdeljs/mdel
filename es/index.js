@@ -137,7 +137,7 @@ function getIsStore(target) {
     return target && target["sign"] === SIGN;
 }
 
-var version = '3.5.0';
+var version = '3.6.0';
 
 export default Model;
 export { Model, getIsStore, version, isObject, throwError };
