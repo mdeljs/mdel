@@ -31,16 +31,17 @@ export declare type TUnSubscribe = () => void;
  * unSubscribe();
  */
 export declare class Model<D extends TData = {}> {
-    data: Readonly<D>;
-    INTERNAL: string;
+    readonly data: Readonly<D>;
+    readonly name: Readonly<string>;
+    readonly sign: Readonly<string>;
     private pvtData;
     private pvtListeners;
-    constructor(initData: D);
+    constructor(initData: D, name?: string);
     /**
      * 更新数据
      * @param data {object} 部分数据
      */
-    update(data: (() => void) | Partial<D> | null): void;
+    update(data?: Partial<D>): void;
     /**
      * 订阅数据的更新
      * @param listener {function():function():void}  监听函数

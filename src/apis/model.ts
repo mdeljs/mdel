@@ -1,7 +1,7 @@
 import throwError from '../utils/throwError'
 import isObject from '../utils/isObject'
 
-const INTERNAL = '__MDEL__';
+const SIGN = '__MDEL__';
 
 export type TData = object;
 export type TListener = () => () => void ;
@@ -37,19 +37,20 @@ export type TUnSubscribe = () => void;
  * unSubscribe();
  */
 export class Model<D extends TData = {}> {
-  public data: Readonly<D>;
-  public INTERNAL: string;
+  public readonly data: Readonly<D>;
+  public readonly name: Readonly<string>;
+  public readonly sign: Readonly<string> = SIGN;
 
   private pvtData: D;
-  private pvtListeners: TListener[];
+  private pvtListeners: TListener[] = [];
 
-  constructor(initData: D) {
+  constructor(initData: D, name = '') {
     throwError(!isObject(initData), 'initData is not a object');
+    throwError(typeof name !== 'string', 'name is not a string');
 
-    this.pvtListeners = [];
     this.pvtData = initData;
-    this.INTERNAL = INTERNAL;
 
+    this.name = name;
     Object.defineProperty(this, 'data', {
       configurable: false,
       enumerable: true,
@@ -64,22 +65,17 @@ export class Model<D extends TData = {}> {
    * 更新数据
    * @param data {object} 部分数据
    */
-  update(data: (() => void) | Partial<D> | null): void {
+  update(data: Partial<D> = {}): void {
     //验证参数
-    throwError(
-      !(typeof data === 'function' || isObject(data) || data === null),
-      'data is not a valid parameter'
-    );
+    throwError(!isObject(data), 'data is not a object');
     //执行更新前回调
     const afterCbs = this.pvtListeners.slice().map(beforeCb => beforeCb.call(this));
     //更新数据
-    if (isObject(data)) {
+    if (Object.keys(data).length !== 0) {
       this.pvtData = {
         ...this.pvtData,
         ...data
-      } as D;
-    } else if (typeof data === 'function') {
-      data.call(this)
+      };
     }
     //执行更新后回调
     afterCbs.forEach(afterCb => afterCb.call(this));
@@ -107,5 +103,5 @@ export class Model<D extends TData = {}> {
  * @return {boolean}
  */
 export function getIsStore(target: any): boolean {
-  return target && target["INTERNAL"] === INTERNAL;
+  return target && target["sign"] === SIGN;
 }

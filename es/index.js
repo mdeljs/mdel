@@ -44,7 +44,7 @@ function isObject(data) {
     return Object.prototype.toString.call(data) === '[object Object]';
 }
 
-var INTERNAL = '__MDEL__';
+var SIGN = '__MDEL__';
 /**
  * 数据模型
  * @class
@@ -75,12 +75,15 @@ var INTERNAL = '__MDEL__';
  * unSubscribe();
  */
 var Model = /** @class */ (function () {
-    function Model(initData) {
+    function Model(initData, name) {
+        if (name === void 0) { name = ''; }
         var _this = this;
-        throwError(!isObject(initData), 'initData is not a object');
+        this.sign = SIGN;
         this.pvtListeners = [];
+        throwError(!isObject(initData), 'initData is not a object');
+        throwError(typeof name !== 'string', 'name is not a string');
         this.pvtData = initData;
-        this.INTERNAL = INTERNAL;
+        this.name = name;
         Object.defineProperty(this, 'data', {
             configurable: false,
             enumerable: true,
@@ -96,16 +99,14 @@ var Model = /** @class */ (function () {
      */
     Model.prototype.update = function (data) {
         var _this = this;
+        if (data === void 0) { data = {}; }
         //验证参数
-        throwError(!(typeof data === 'function' || isObject(data) || data === null), 'data is not a valid parameter');
+        throwError(!isObject(data), 'data is not a object');
         //执行更新前回调
         var afterCbs = this.pvtListeners.slice().map(function (beforeCb) { return beforeCb.call(_this); });
         //更新数据
-        if (isObject(data)) {
+        if (Object.keys(data).length !== 0) {
             this.pvtData = __assign({}, this.pvtData, data);
-        }
-        else if (typeof data === 'function') {
-            data.call(this);
         }
         //执行更新后回调
         afterCbs.forEach(function (afterCb) { return afterCb.call(_this); });
@@ -133,10 +134,10 @@ var Model = /** @class */ (function () {
  * @return {boolean}
  */
 function getIsStore(target) {
-    return target && target["INTERNAL"] === INTERNAL;
+    return target && target["sign"] === SIGN;
 }
 
-var version = '3.4.0';
+var version = '3.5.0';
 
 export default Model;
 export { Model, getIsStore, version, isObject, throwError };

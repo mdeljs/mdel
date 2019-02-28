@@ -4,26 +4,24 @@ describe('model', function () {
   it('test construction', function () {
     expect(() => new Model(1)).toThrow('initData is not a object');
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
+    expect(new Model({}, 'list').name).toBe('list');
   });
   it('test update', function () {
-    const store = new Model({a: 1});
+    const data = {a: 1};
+    const store = new Model(data);
 
-    expect(() => store.update(1)).toThrow('data is not a valid parameter');
-    expect(() => store.update(() => {
-    })).not.toThrow();
-    expect(() => store.update({})).not.toThrow();
-    expect(() => store.update(null)).not.toThrow();
+    store.update();
+    expect(store.data === data).toBeTruthy();
+
+    store.update({});
+    expect(store.data === data).toBeTruthy();
 
     store.update({a: 2});
     expect(store.data).toEqual({a: 2});
 
-    store.update(null);
-    expect(store.data).toEqual({a: 2});
-
-    store.update(function () {
-      this.data.a = 1;
-    });
-    expect(store.data).toEqual({a: 1});
+    expect(() => store.update(1)).toThrow('data is not a object');
+    expect(() => store.update({})).not.toThrow();
+    expect(() => store.update()).not.toThrow();
   });
   it('test basic subscribe', function () {
     const store = new Model({});

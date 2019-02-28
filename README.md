@@ -177,11 +177,14 @@ export default UserLoginLog;
 ### Model
 #### 语法
 
-`const store = new Model(initData:object)`
+`const store = new Model(initData:object,name?:string = '')`
 
 数据模型
 
 #### 实例属性
+
+##### name
+返回名称（只读），在构造时定义
 
 ##### data
 
@@ -193,7 +196,7 @@ export default UserLoginLog;
 
 ##### update
 
-`model.update(data: (() => void) | object | null):void`
+`model.update(data: object = {}):void`
 
 更新数据，你必须使用update来更新data
 
