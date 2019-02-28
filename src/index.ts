@@ -1,12 +1,5 @@
-import {getIsStore, Model, TData, TListener, TUnSubscribe} from './apis/model'
-import isObject from './utils/isObject'
-import throwError from './utils/throwError'
+export {getIsStore, Model, TData, TListener, TUnSubscribe} from './apis/model'
+export {default as isObject} from './utils/isObject'
+export {default as throwError} from './utils/throwError'
 
-const version = '3.6.0';
-
-export default Model;
-export {
-  Model, getIsStore, version,
-  isObject, throwError,
-  TData, TListener, TUnSubscribe
-}
+export const version = '3.7.0';

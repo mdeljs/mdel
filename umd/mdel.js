@@ -143,12 +143,11 @@
         return target && target["sign"] === SIGN;
     }
 
-    var version = '3.6.0';
+    var version = '3.7.0';
 
-    exports.default = Model;
-    exports.Model = Model;
-    exports.getIsStore = getIsStore;
     exports.version = version;
+    exports.getIsStore = getIsStore;
+    exports.Model = Model;
     exports.isObject = isObject;
     exports.throwError = throwError;
 

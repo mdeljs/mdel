@@ -1,6 +1,6 @@
 {
   "name": "mdel",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "数据管理器",
   "license": "MIT",
   "repository": "github:mdeljs/mdel",
@@ -27,6 +27,7 @@
   ],
   "main": "umd/index.js",
   "module": "es/index.js",
+  "typings": "es/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.1.2",
