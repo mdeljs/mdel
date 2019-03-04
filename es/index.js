@@ -57,7 +57,7 @@ var SIGN = '__MDEL__';
  *        });
  *    }
  *    login(){
- *        this.update({
+ *        this.change({
  *            uid:1
  *        })
  *    }
@@ -88,31 +88,38 @@ var Model = /** @class */ (function () {
             configurable: false,
             enumerable: true,
             set: function () {
-                throwError(true, 'must use update to set data');
+                throwError(true, 'must use change to set data');
             },
             get: function () { return _this.pvtData; }
         });
     }
     /**
-     * 更新数据
-     * @param data {object} 部分数据
+     * 修改数据
+     * @param data {object} 数据
+     * @param mode {'update' | 'set'} 模式
      */
-    Model.prototype.update = function (data) {
+    Model.prototype.change = function (data, mode) {
         var _this = this;
         if (data === void 0) { data = {}; }
+        if (mode === void 0) { mode = 'update'; }
         //验证参数
         throwError(!isObject(data), 'data is not a object');
-        //执行更新前回调
+        //执行修改前回调
         var afterCbs = this.pvtListeners.slice().map(function (beforeCb) { return beforeCb.call(_this); });
-        //更新数据
+        //修改数据
         if (Object.keys(data).length !== 0) {
-            this.pvtData = __assign({}, this.pvtData, data);
+            if (mode === 'update') {
+                this.pvtData = __assign({}, this.pvtData, data);
+            }
+            else if (mode === 'set') {
+                this.pvtData = data;
+            }
         }
-        //执行更新后回调
+        //执行修改后回调
         afterCbs.forEach(function (afterCb) { return afterCb.call(_this); });
     };
     /**
-     * 订阅数据的更新
+     * 订阅数据的修改
      * @param listener {function():function():void}  监听函数
      * @returns 返回取消订阅
      */
@@ -137,6 +144,6 @@ function getIsStore(target) {
     return target && target["sign"] === SIGN;
 }
 
-var version = '3.7.0';
+var version = '3.9.0';
 
 export { version, getIsStore, Model, isObject, throwError };

@@ -13,7 +13,7 @@ export declare type TUnSubscribe = () => void;
  *        });
  *    }
  *    login(){
- *        this.update({
+ *        this.change({
  *            uid:1
  *        })
  *    }
@@ -38,12 +38,13 @@ export declare class Model<D extends TData = {}> {
     private pvtListeners;
     constructor(initData: D, name?: string);
     /**
-     * 更新数据
-     * @param data {object} 部分数据
+     * 修改数据
+     * @param data {object} 数据
+     * @param mode {'update' | 'set'} 模式
      */
-    update(data?: Partial<D>): void;
+    change(data?: Partial<D>, mode?: ('update' | 'set')): void;
     /**
-     * 订阅数据的更新
+     * 订阅数据的修改
      * @param listener {function():function():void}  监听函数
      * @returns 返回取消订阅
      */
