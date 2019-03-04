@@ -192,7 +192,9 @@ export default UserLoginLog;
 
 * 建议data的数据结构在初始的时候时确定
 * typescript中可通过泛型来约束data  
-` class UserModel extends Model<IData>{}`
+```typescript
+class UserModel extends Model<IData>{}
+```
 
 #### 实例方法
 
