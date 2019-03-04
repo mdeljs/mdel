@@ -19,7 +19,7 @@ export type TUnSubscribe = () => void;
  *        });
  *    }
  *    login(){
- *        this.update({
+ *        this.change({
  *            uid:1
  *        })
  *    }
@@ -55,34 +55,39 @@ export class Model<D extends TData = {}> {
       configurable: false,
       enumerable: true,
       set() {
-        throwError(true, 'must use update to set data');
+        throwError(true, 'must use change to set data');
       },
       get: () => this.pvtData
     });
   }
 
   /**
-   * 更新数据
-   * @param data {object} 部分数据
+   * 修改数据
+   * @param data {object} 数据
+   * @param mode {'update' | 'set'} 模式
    */
-  update(data: Partial<D> = {}): void {
+  change(data: Partial<D> = {}, mode: ('update' | 'set') = 'update'): void {
     //验证参数
     throwError(!isObject(data), 'data is not a object');
-    //执行更新前回调
+    //执行修改前回调
     const afterCbs = this.pvtListeners.slice().map(beforeCb => beforeCb.call(this));
-    //更新数据
+    //修改数据
     if (Object.keys(data).length !== 0) {
-      this.pvtData = {
-        ...this.pvtData,
-        ...data
-      };
+      if (mode === 'update') {
+        this.pvtData = {
+          ...this.pvtData,
+          ...data
+        };
+      } else if (mode === 'set') {
+        this.pvtData = data as D;
+      }
     }
-    //执行更新后回调
+    //执行修改后回调
     afterCbs.forEach(afterCb => afterCb.call(this));
   }
 
   /**
-   * 订阅数据的更新
+   * 订阅数据的修改
    * @param listener {function():function():void}  监听函数
    * @returns 返回取消订阅
    */

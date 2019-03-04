@@ -22,7 +22,7 @@ class UserModel extends Model{
         });
     }
     login(){
-        this.update({
+        this.change({
             uid:1
         })
     }
@@ -67,7 +67,7 @@ function createUserStore() {
   });
   
   store.login = function(){
-    store.update({
+    store.change({
       uid:1
     });
   };
@@ -94,10 +94,10 @@ export default class ListModel extends Model{
       })
   }
   setLoading(status){
-      this.update({loading:status})
+      this.change({loading:status})
   }
   setData(data){
-     this.update({
+     this.change({
         loading:false,
         list:data
      }) 
@@ -190,23 +190,25 @@ export default UserLoginLog;
 
 返回数据（只读）
 
-* data的数据结构应该在初始的时候时确定
+* 建议data的数据结构在初始的时候时确定
+* typescript中可通过泛型来约束data
+` class UserModel extends Model<IData>{}`
 
 #### 实例方法
 
-##### update
+##### change
 
-`model.update(data: object = {}):void`
+`model.change(data: Partial<D> = {},mode:('update' | 'set') = 'update'):void`
 
-更新数据，你必须使用update来更新data
+修改数据，你必须使用change来修改data
 
 ##### subscribe
 
 `model.subscribe(listener: () => () => void):unSubscribe`
 
-订阅数据的更新，返回取消订阅
+订阅数据的修改，返回取消订阅
 
-* listener是一个函数，在update调用之前执行，并返回一个函数，在update调用之后执行
+* listener是一个函数，在change调用之前执行，并返回一个函数，在change调用之后执行
 
 ### getIsStore
 
