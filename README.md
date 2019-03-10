@@ -29,13 +29,9 @@ class UserModel extends Model{
 }
 
 const userStore = new UserModel();
-const unSubscribe = userStore.subscribe(function(){
-    const prevUid = userStore.data.uid;
-
-    return function(){
-        if(prevUid === 0 && userStore.data.uid > 0){
-          console.log('您已登录');
-        }
+const unSubscribe = userStore.subscribe(function(prevData){
+    if(prevData.uid === 0 && userStore.data.uid > 0){
+        console.log('您已登录');
     }
 });
 userStore.login();
@@ -48,13 +44,9 @@ unSubscribe();
 var Model = mdel.Model;
 var userStore = createUserStore();
 
-const unSubscribe = userStore.subscribe(function(){
-    const prevUid = userStore.data.uid;
-          
-    return function(){
-        if(prevUid === 0 && userStore.data.uid > 0){
-            console.log('您已登录');
-        }
+const unSubscribe = userStore.subscribe(function(prevData){
+    if(prevData.uid === 0 && userStore.data.uid > 0){
+        console.log('您已登录');
     }
 });
 
@@ -200,17 +192,18 @@ class UserModel extends Model<IData>{}
 
 ##### change
 
-`model.change(data: Partial<D> = {},mode:('update' | 'set') = 'update'):void`
+`model.change(data: Partial<D>,mode:('update' | 'set') = 'update'):void`
 
-修改数据，你必须使用change来修改data
+修改数据，你必须使用change来修改data  
+mode为update时更新数据，为set时设置数据
 
 ##### subscribe
 
-`model.subscribe(listener: () => () => void):unSubscribe`
+`model.subscribe(listener: (prevData) => void):unSubscribe`
 
 订阅数据的修改，返回取消订阅
 
-* listener是一个函数，在change调用之前执行，并返回一个函数，在change调用之后执行
+* 参数prevData是浅拷贝数据更新前的data对象
 
 ### getIsStore
 

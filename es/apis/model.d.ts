@@ -1,5 +1,5 @@
 export declare type TData = object;
-export declare type TListener = () => () => void;
+export declare type TListener<T> = (prevData: T) => void;
 export declare type TUnSubscribe = () => void;
 /**
  * 数据模型
@@ -20,12 +20,8 @@ export declare type TUnSubscribe = () => void;
  * }
  *
  * const userStore = new UserModel();
- * const unSubscribe = userStore.subscribe(function(){
- *    const prevUid = userStore.data.uid;
- *
- *    return function(){
- *        console.log(prevUid,userStore.data.uid);
- *    }
+ * const unSubscribe = userStore.subscribe(function(prevData){
+ *    console.log(prevData.uid,userStore.data.uid);
  * });
  * userStore.login();
  * unSubscribe();
@@ -40,15 +36,15 @@ export declare class Model<D extends TData = {}> {
     /**
      * 修改数据
      * @param data {object} 数据
-     * @param mode {'update' | 'set'} 模式
+     * @param [mode] {'update' | 'set'} 模式
      */
-    change(data?: Partial<D>, mode?: ('update' | 'set')): void;
+    change(data: Partial<D>, mode?: ('update' | 'set')): void;
     /**
      * 订阅数据的修改
-     * @param listener {function():function():void}  监听函数
+     * @param listener {function(Object):void}  监听函数
      * @returns 返回取消订阅
      */
-    subscribe(listener: TListener): TUnSubscribe;
+    subscribe(listener: TListener<D>): TUnSubscribe;
 }
 /**
  * 获取是否是数据容器

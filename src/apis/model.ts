@@ -4,7 +4,7 @@ import isObject from '../utils/isObject'
 const SIGN = '__MDEL__';
 
 export type TData = object;
-export type TListener = () => () => void ;
+export type TListener<T> = (prevData: T) => void ;
 export type TUnSubscribe = () => void;
 
 /**
@@ -26,12 +26,8 @@ export type TUnSubscribe = () => void;
  * }
  *
  * const userStore = new UserModel();
- * const unSubscribe = userStore.subscribe(function(){
- *    const prevUid = userStore.data.uid;
- *
- *    return function(){
- *        console.log(prevUid,userStore.data.uid);
- *    }
+ * const unSubscribe = userStore.subscribe(function(prevData){
+ *    console.log(prevData.uid,userStore.data.uid);
  * });
  * userStore.login();
  * unSubscribe();
@@ -42,7 +38,7 @@ export class Model<D extends TData = {}> {
   public readonly sign: Readonly<string> = SIGN;
 
   private pvtData: D;
-  private pvtListeners: TListener[] = [];
+  private pvtListeners: TListener<D>[] = [];
 
   constructor(initData: D, name = '') {
     throwError(!isObject(initData), 'initData is not a object');
@@ -64,34 +60,28 @@ export class Model<D extends TData = {}> {
   /**
    * 修改数据
    * @param data {object} 数据
-   * @param mode {'update' | 'set'} 模式
+   * @param [mode] {'update' | 'set'} 模式
    */
-  change(data: Partial<D> = {}, mode: ('update' | 'set') = 'update'): void {
+  change(data: Partial<D>, mode: ('update' | 'set') = 'update'): void {
     //验证参数
     throwError(!isObject(data), 'data is not a object');
-    //执行修改前回调
-    const afterCbs = this.pvtListeners.slice().map(beforeCb => beforeCb.call(this));
+    const prevData = this.pvtData;
     //修改数据
-    if (Object.keys(data).length !== 0) {
-      if (mode === 'update') {
-        this.pvtData = {
-          ...this.pvtData,
-          ...data
-        };
-      } else if (mode === 'set') {
-        this.pvtData = data as D;
-      }
+    if (mode === 'set') {
+      this.pvtData = Object.assign({}, data) as D;
+    } else {
+      this.pvtData = Object.assign({}, this.pvtData, data)
     }
     //执行修改后回调
-    afterCbs.forEach(afterCb => afterCb.call(this));
+    this.pvtListeners.forEach(listener => listener.call(this, prevData));
   }
 
   /**
    * 订阅数据的修改
-   * @param listener {function():function():void}  监听函数
+   * @param listener {function(Object):void}  监听函数
    * @returns 返回取消订阅
    */
-  subscribe(listener: TListener): TUnSubscribe {
+  subscribe(listener: TListener<D>): TUnSubscribe {
     throwError(typeof listener !== 'function', 'listener is not a function');
     //添加到监听列表中
     if (this.pvtListeners.indexOf(listener) === -1) {

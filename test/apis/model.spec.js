@@ -2,7 +2,7 @@ import {getIsStore, Model} from "../../src/apis/model";
 
 describe('model', function () {
   it('test construction', function () {
-    expect(() => new Model(1)).toThrow('initData is not a object');
+    expect(() => new Model()).toThrow('initData is not a object');
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
     expect(new Model({}, 'list').name).toBe('list');
   });
@@ -10,11 +10,8 @@ describe('model', function () {
     const data = {a: 1};
     const store = new Model(data);
 
-    store.change();
-    expect(store.data === data).toBeTruthy();
-
     store.change({});
-    expect(store.data === data).toBeTruthy();
+    expect(store.data === data).toBeFalsy();
 
     store.change({a: 2});
     expect(store.data).toEqual({a: 2});
@@ -22,9 +19,10 @@ describe('model', function () {
     store.change({b: 1, c: 2}, 'set');
     expect(store.data).toEqual({b: 1, c: 2});
 
-    expect(() => store.change(1)).toThrow('data is not a object');
-    expect(() => store.change({})).not.toThrow();
-    expect(() => store.change()).not.toThrow();
+    expect(() => {
+      store.change();
+      store.change(1);
+    }).toThrow('data is not a object');
   });
   it('test basic subscribe', function () {
     const store = new Model({});
@@ -41,28 +39,15 @@ describe('model', function () {
 
   it('test listener call', function f() {
     const store = new Model({uid: 0});
-    const beforeCb = jest.fn();
-    const afterCb = jest.fn();
+    const listener = jest.fn();
 
-    let beforeUid, afterUid;
-
-    store.subscribe(function (...beforeArgs) {
-      beforeCb(...beforeArgs);
-      beforeUid = store.data.uid;
-
-      return function (...afterArgs) {
-        afterCb(...afterArgs);
-        afterUid = store.data.uid;
-      };
-    });
+    store.subscribe(listener);
 
     store.change({uid: 1});
 
-    expect(beforeCb.mock.calls.length).toBe(1);
-    expect(afterCb.mock.calls.length).toBe(1);
-
-    expect(beforeUid).toBe(0);
-    expect(afterUid).toBe(1);
+    expect(listener.mock.calls.length).toBe(1);
+    expect(listener.mock.calls[0][0].uid).toBe(0);
+    expect(store.data.uid).toBe(1);
   });
 
   it('test getIsStore', function () {
