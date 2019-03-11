@@ -192,14 +192,23 @@ class UserModel extends Model<IData>{}
 
 ##### change
 
-`model.change(data: Partial<D>,mode:('update' | 'set') = 'update'):void`
+```typescript
+interface IChange {
+  (data: Partial<D>,mode:('update' | 'set') = 'update'):void
+}
+```
 
 修改数据，你必须使用change来修改data  
 mode为update时更新数据，为set时设置数据
 
 ##### subscribe
 
-`model.subscribe(listener: (prevData) => void):unSubscribe`
+```typescript
+interface ISubscribe {
+  (listener: (prevData) => void):IUnSubscribe
+}
+```
+`model.subscribe`
 
 订阅数据的修改，返回取消订阅
 
@@ -207,9 +216,13 @@ mode为update时更新数据，为set时设置数据
 
 ### getIsStore
 
-#### 语法
+#### 定义
 
-`const isStore = getIsStore(target:any):boolean;`
+```typescript
+interface IGetIsStore {
+  (target:any):boolean
+}
+```
 
 获取是否是数据容器，也就是数据模型的实例
 
