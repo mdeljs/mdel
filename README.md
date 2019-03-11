@@ -203,7 +203,7 @@ mode为update时更新数据，为set时设置数据
 
 订阅数据的修改，返回取消订阅
 
-* 参数prevData是 *浅拷贝* 数据容器更新前的data对象
+* 参数prevData是 **浅拷贝** 数据容器更新前的data对象
 
 ### getIsStore
 
