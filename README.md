@@ -171,7 +171,6 @@ export default UserLoginLog;
 ## API
 
 ### Model
-#### 语法
 
 `const store = new Model(initData:object,name?:string = '')`
 
@@ -218,8 +217,6 @@ interface ISubscribe {
 * 参数prevData是 **浅拷贝** 数据容器更新前的data对象
 
 ### getIsStore
-
-#### 定义
 
 ```typescript
 interface IGetIsStore {
