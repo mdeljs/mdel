@@ -23,26 +23,6 @@ var SIGN = '__MDEL__';
  * 数据模型
  * @class
  * @example
- *
- * class UserModel extends Model{
- *    constructor(){
- *        super({
- *            uid:0
- *        });
- *    }
- *    login(){
- *        this.change({
- *            uid:1
- *        })
- *    }
- * }
- *
- * const userStore = new UserModel();
- * const unSubscribe = userStore.subscribe(function(prevData){
- *    console.log(prevData.uid,userStore.data.uid);
- * });
- * userStore.login();
- * unSubscribe();
  */
 var Model = /** @class */ (function () {
     function Model(initData, name) {
