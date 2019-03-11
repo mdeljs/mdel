@@ -106,13 +106,17 @@ class UserLoginLog extends React.Component{
     sUser = userStore;
     sList = new ListModel();
     
-    componentDidMount(){
+    async componentDidMount(){
         this.sList.setLoading(true);
         
-        getRequest('/api/user....').then(
-            data=>this.sList.setData(data),
-            ()=>this.sList.setLoading(false)
-        );
+        try{
+            const data = await getRequest('/api/user....');
+            
+            this.sList.setData(data)
+        }
+        catch (e) {
+          this.sList.setLoading(false)
+        }
     }
     
     render(){
@@ -199,7 +203,7 @@ interface IChange {
 ```
 
 修改数据，你必须使用change来修改data  
-mode为update时更新数据，为set时设置数据
+mode为update时更新数据，会合并进之前的数据。为set时设置数据，会替换之前的数据
 
 ##### subscribe
 
@@ -208,7 +212,6 @@ interface ISubscribe {
   (listener: (prevData) => void):IUnSubscribe
 }
 ```
-`model.subscribe`
 
 订阅数据的修改，返回取消订阅
 

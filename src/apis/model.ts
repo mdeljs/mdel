@@ -11,26 +11,6 @@ export type TUnSubscribe = () => void;
  * 数据模型
  * @class
  * @example
- *
- * class UserModel extends Model{
- *    constructor(){
- *        super({
- *            uid:0
- *        });
- *    }
- *    login(){
- *        this.change({
- *            uid:1
- *        })
- *    }
- * }
- *
- * const userStore = new UserModel();
- * const unSubscribe = userStore.subscribe(function(prevData){
- *    console.log(prevData.uid,userStore.data.uid);
- * });
- * userStore.login();
- * unSubscribe();
  */
 export class Model<D extends TData = {}> {
   public readonly data: Readonly<D>;
