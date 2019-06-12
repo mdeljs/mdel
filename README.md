@@ -203,8 +203,7 @@ interface IUpdate {
 }
 ```
 
-修改数据，你必须使用update来修改data  
-* 先设置this.data到this.prevData,然后 **浅拷贝** 数据容器更新前的data对象
+更新数据，你必须使用update来修改data,会 **浅拷贝** 到实例data中
 
 ##### subscribe
 
