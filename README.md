@@ -194,7 +194,7 @@ class UserModel extends Model<IData>{}
 ```
 
 ##### prevData
-返回更新前的数据（只读）
+返回修改前的数据（只读）
 
 #### 实例方法
 
