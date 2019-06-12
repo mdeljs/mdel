@@ -181,9 +181,6 @@ export default UserLoginLog;
 ##### name
 返回名称（只读），在构造时定义
 
-##### prevData
-返回更新前的数据（只读）
-
 ##### data
 返回数据（只读）
 
@@ -192,6 +189,9 @@ export default UserLoginLog;
 ```typescript
 class UserModel extends Model<IData>{}
 ```
+
+##### prevData
+返回更新前的数据（只读）
 
 #### 实例方法
 
