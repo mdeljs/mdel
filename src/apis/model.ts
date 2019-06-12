@@ -31,11 +31,11 @@ export class Model<D extends TData = {}> {
   }
 
   /**
-   * 更新数据
+   * 设置数据
    * @param data {object} 数据
    */
-  update(data: Partial<D>): void {
-    //更新数据
+  setData(data: Partial<D>): void {
+    //校验数据
     throwError(!isObject(data), 'data is not a object');
     //更新数据
     this.prevData = this.data;

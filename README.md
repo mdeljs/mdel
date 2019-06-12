@@ -22,7 +22,7 @@ class UserModel extends Model{
         });
     }
     login(){
-        this.update({
+        this.setData({
             uid:1
         })
     }
@@ -59,7 +59,7 @@ function createUserStore() {
   });
   
   store.login = function(){
-    store.update({
+    store.setData({
       uid:1
     });
   };
@@ -86,10 +86,10 @@ export default class ListModel extends Model{
       })
   }
   setLoading(status){
-      this.update({loading:status})
+      this.setData({loading:status})
   }
   setData(data){
-     this.update({
+     this.setData({
         loading:false,
         list:data
      }) 
@@ -186,7 +186,7 @@ const store = new Model(initData:object,name?:string = '')
 ##### data
 返回数据（只读）
 
-* 必须使用 **update** 方法来修改data
+* 必须使用 **setData** 方法来修改data
 * 建议data的数据结构在初始的时候时确定
 * typescript中可通过泛型来约束data  
 ```typescript
@@ -198,7 +198,7 @@ class UserModel extends Model<IData>{}
 
 #### 实例方法
 
-##### update
+##### setData
 
 ```typescript
 interface IUpdate {
@@ -234,7 +234,7 @@ interface IGetIsStore {
 
 ### 5.0.0
 1. 新增prevData,取消subscribe中prevData参数
-2. 新增update方法,废弃change方法
+2. 新增setData方法,废弃change方法
 
 ## License
 
