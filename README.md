@@ -201,12 +201,12 @@ class UserModel extends Model<IData>{}
 ##### setData
 
 ```typescript
-interface IUpdate {
+interface ISetData {
   (data: Partial<D>):void
 }
 ```
 
-更新数据，会 **浅拷贝** 到实例data中
+设置数据，会 **浅拷贝** 到实例data中
 
 ##### subscribe
 
