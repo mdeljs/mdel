@@ -230,6 +230,12 @@ interface IGetIsStore {
 
 获取是否是数据容器，也就是数据模型的实例
 
+## 更新日志
+
+### 5.0.0
+1.新增prevData,取消subscribe中prevData参数
+2.新增update方法,废弃change方法
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
