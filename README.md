@@ -172,7 +172,9 @@ export default UserLoginLog;
 
 ### Model
 
-`const store = new Model(initData:object,name?:string = '')`
+```typescript
+const store = new Model(initData:object,name?:string = '')
+```
 
 数据模型
 
