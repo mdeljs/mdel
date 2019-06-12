@@ -186,8 +186,8 @@ const store = new Model(initData:object,name?:string = '')
 ##### data
 返回数据（只读）
 
+* 必须使用 **update** 方法来修改data
 * 建议data的数据结构在初始的时候时确定
-* 必须使用update方法来修改data
 * typescript中可通过泛型来约束data  
 ```typescript
 class UserModel extends Model<IData>{}
