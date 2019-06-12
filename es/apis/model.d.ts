@@ -14,10 +14,10 @@ export declare class Model<D extends TData = {}> {
     private pvtListeners;
     constructor(initData: D, name?: string);
     /**
-     * 更新数据
+     * 设置数据
      * @param data {object} 数据
      */
-    update(data: Partial<D>): void;
+    setData(data: Partial<D>): void;
     /**
      * 订阅数据的更新
      * @param listener {function():void}  监听函数

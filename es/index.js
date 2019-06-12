@@ -36,12 +36,12 @@ var Model = /** @class */ (function () {
         this.name = name;
     }
     /**
-     * 更新数据
+     * 设置数据
      * @param data {object} 数据
      */
-    Model.prototype.update = function (data) {
+    Model.prototype.setData = function (data) {
         var _this = this;
-        //更新数据
+        //校验数据
         throwError(!isObject(data), 'data is not a object');
         //更新数据
         this.prevData = this.data;

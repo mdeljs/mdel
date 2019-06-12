@@ -7,20 +7,20 @@ describe('model', function () {
     expect(new Model({a: 1, b: 1}).prevData).toEqual({});
     expect(new Model({}, 'list').name).toBe('list');
   });
-  it('test update', function () {
+  it('test setData', function () {
     const data = {a: 1};
     const store = new Model(data);
 
-    store.update({});
+    store.setData({});
     expect(store.data === data).toBeFalsy();
 
-    store.update({a: 2});
+    store.setData({a: 2});
     expect(store.data).toEqual({a: 2});
     expect(store.prevData).toEqual({a: 1});
 
     expect(() => {
-      store.update();
-      store.update(1);
+      store.setData();
+      store.setData(1);
     }).toThrow('data is not a object');
   });
   it('test basic subscribe', function () {
@@ -42,7 +42,7 @@ describe('model', function () {
 
     store.subscribe(listener);
 
-    store.update({uid: 1});
+    store.setData({uid: 1});
 
     expect(listener.mock.calls.length).toBe(1);
     expect(store.prevData.uid).toBe(0);
