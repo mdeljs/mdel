@@ -233,8 +233,8 @@ interface IGetIsStore {
 ## 更新日志
 
 ### 5.0.0
-1.新增prevData,取消subscribe中prevData参数
-2.新增update方法,废弃change方法
+1. 新增prevData,取消subscribe中prevData参数
+2. 新增update方法,废弃change方法
 
 ## License
 
