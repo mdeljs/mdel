@@ -1,5 +1,5 @@
 export declare type TData = object;
-export declare type TListener<T> = (prevData: T) => void;
+export declare type TListener = () => void;
 export declare type TUnSubscribe = () => void;
 /**
  * 数据模型
@@ -7,24 +7,23 @@ export declare type TUnSubscribe = () => void;
  * @example
  */
 export declare class Model<D extends TData = {}> {
-    readonly data: Readonly<D>;
+    data: Readonly<D>;
+    prevData: Readonly<D>;
     readonly name: Readonly<string>;
     readonly sign: Readonly<string>;
-    private pvtData;
     private pvtListeners;
     constructor(initData: D, name?: string);
     /**
-     * 修改数据
+     * 更新数据
      * @param data {object} 数据
-     * @param [mode] {'update' | 'set'} 模式
      */
-    change(data: Partial<D>, mode?: ('update' | 'set')): void;
+    update(data: Partial<D>): void;
     /**
-     * 订阅数据的修改
-     * @param listener {function(Object):void}  监听函数
+     * 订阅数据的更新
+     * @param listener {function():void}  监听函数
      * @returns 返回取消订阅
      */
-    subscribe(listener: TListener<D>): TUnSubscribe;
+    subscribe(listener: TListener): TUnSubscribe;
 }
 /**
  * 获取是否是数据容器

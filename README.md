@@ -22,15 +22,15 @@ class UserModel extends Model{
         });
     }
     login(){
-        this.change({
+        this.update({
             uid:1
         })
     }
 }
 
 const userStore = new UserModel();
-const unSubscribe = userStore.subscribe(function(prevData){
-    if(prevData.uid === 0 && userStore.data.uid > 0){
+const unSubscribe = userStore.subscribe(function(){
+    if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
         console.log('您已登录');
     }
 });
@@ -44,8 +44,8 @@ unSubscribe();
 var Model = mdel.Model;
 var userStore = createUserStore();
 
-const unSubscribe = userStore.subscribe(function(prevData){
-    if(prevData.uid === 0 && userStore.data.uid > 0){
+const unSubscribe = userStore.subscribe(function(){
+    if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
         console.log('您已登录');
     }
 });
@@ -59,7 +59,7 @@ function createUserStore() {
   });
   
   store.login = function(){
-    store.change({
+    store.update({
       uid:1
     });
   };
@@ -86,10 +86,10 @@ export default class ListModel extends Model{
       })
   }
   setLoading(status){
-      this.change({loading:status})
+      this.update({loading:status})
   }
   setData(data){
-     this.change({
+     this.update({
         loading:false,
         list:data
      }) 
@@ -181,8 +181,10 @@ export default UserLoginLog;
 ##### name
 返回名称（只读），在构造时定义
 
-##### data
+##### prevData
+返回更新前的数据（只读）
 
+##### data
 返回数据（只读）
 
 * 建议data的数据结构在初始的时候时确定
@@ -193,28 +195,28 @@ class UserModel extends Model<IData>{}
 
 #### 实例方法
 
-##### change
+##### update
 
 ```typescript
-interface IChange {
-  (data: Partial<D>,mode:('update' | 'set') = 'update'):void
+interface IUpdate {
+  (data: Partial<D>):void
 }
 ```
 
-修改数据，你必须使用change来修改data  
-mode为update时更新数据，会合并进之前的数据。为set时设置数据，会替换之前的数据
+修改数据，你必须使用update来修改data  
+* 先设置this.data到this.prevData,然后 **浅拷贝** 数据容器更新前的data对象
 
 ##### subscribe
 
 ```typescript
 interface ISubscribe {
-  (listener: (prevData) => void):IUnSubscribe
+  (listener: () => void):IUnSubscribe
 }
 ```
 
 订阅数据的修改，返回取消订阅
 
-* 参数prevData是 **浅拷贝** 数据容器更新前的data对象
+
 
 ### getIsStore
 

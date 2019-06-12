@@ -27,46 +27,31 @@ var SIGN = '__MDEL__';
 var Model = /** @class */ (function () {
     function Model(initData, name) {
         if (name === void 0) { name = ''; }
-        var _this = this;
         this.sign = SIGN;
         this.pvtListeners = [];
         throwError(!isObject(initData), 'initData is not a object');
         throwError(typeof name !== 'string', 'name is not a string');
-        this.pvtData = initData;
+        this.prevData = {};
+        this.data = initData;
         this.name = name;
-        Object.defineProperty(this, 'data', {
-            configurable: false,
-            enumerable: true,
-            set: function () {
-                throwError(true, 'must use change to set data');
-            },
-            get: function () { return _this.pvtData; }
-        });
     }
     /**
-     * 修改数据
+     * 更新数据
      * @param data {object} 数据
-     * @param [mode] {'update' | 'set'} 模式
      */
-    Model.prototype.change = function (data, mode) {
+    Model.prototype.update = function (data) {
         var _this = this;
-        if (mode === void 0) { mode = 'update'; }
-        //验证参数
+        //更新数据
         throwError(!isObject(data), 'data is not a object');
-        var prevData = this.pvtData;
-        //修改数据
-        if (mode === 'set') {
-            this.pvtData = Object.assign({}, data);
-        }
-        else {
-            this.pvtData = Object.assign({}, this.pvtData, data);
-        }
-        //执行修改后回调
-        this.pvtListeners.forEach(function (listener) { return listener.call(_this, prevData); });
+        //更新数据
+        this.prevData = this.data;
+        this.data = Object.assign({}, this.data, data);
+        //执行更新后回调
+        this.pvtListeners.forEach(function (listener) { return listener.call(_this); });
     };
     /**
-     * 订阅数据的修改
-     * @param listener {function(Object):void}  监听函数
+     * 订阅数据的更新
+     * @param listener {function():void}  监听函数
      * @returns 返回取消订阅
      */
     Model.prototype.subscribe = function (listener) {
@@ -90,6 +75,6 @@ function getIsStore(target) {
     return target && target["sign"] === SIGN;
 }
 
-var version = '4.0.0';
+var version = '5.0.0';
 
-export { version, getIsStore, Model, isObject, throwError };
+export { Model, getIsStore, isObject, throwError, version };

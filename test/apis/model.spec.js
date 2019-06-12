@@ -4,24 +4,23 @@ describe('model', function () {
   it('test construction', function () {
     expect(() => new Model()).toThrow('initData is not a object');
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
+    expect(new Model({a: 1, b: 1}).prevData).toEqual({});
     expect(new Model({}, 'list').name).toBe('list');
   });
-  it('test change', function () {
+  it('test update', function () {
     const data = {a: 1};
     const store = new Model(data);
 
-    store.change({});
+    store.update({});
     expect(store.data === data).toBeFalsy();
 
-    store.change({a: 2});
+    store.update({a: 2});
     expect(store.data).toEqual({a: 2});
-
-    store.change({b: 1, c: 2}, 'set');
-    expect(store.data).toEqual({b: 1, c: 2});
+    expect(store.prevData).toEqual({a: 1});
 
     expect(() => {
-      store.change();
-      store.change(1);
+      store.update();
+      store.update(1);
     }).toThrow('data is not a object');
   });
   it('test basic subscribe', function () {
@@ -43,10 +42,10 @@ describe('model', function () {
 
     store.subscribe(listener);
 
-    store.change({uid: 1});
+    store.update({uid: 1});
 
     expect(listener.mock.calls.length).toBe(1);
-    expect(listener.mock.calls[0][0].uid).toBe(0);
+    expect(store.prevData.uid).toBe(0);
     expect(store.data.uid).toBe(1);
   });
 

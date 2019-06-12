@@ -4,7 +4,7 @@ import isObject from '../utils/isObject'
 const SIGN = '__MDEL__';
 
 export type TData = object;
-export type TListener<T> = (prevData: T) => void ;
+export type TListener = () => void ;
 export type TUnSubscribe = () => void;
 
 /**
@@ -13,55 +13,43 @@ export type TUnSubscribe = () => void;
  * @example
  */
 export class Model<D extends TData = {}> {
-  public readonly data: Readonly<D>;
+  public data: Readonly<D>;
+  public prevData: Readonly<D>;
   public readonly name: Readonly<string>;
   public readonly sign: Readonly<string> = SIGN;
 
-  private pvtData: D;
-  private pvtListeners: TListener<D>[] = [];
+  private pvtListeners: TListener[] = [];
 
-  constructor(initData: D, name = '') {
+  constructor(initData: D, name: string = '') {
     throwError(!isObject(initData), 'initData is not a object');
     throwError(typeof name !== 'string', 'name is not a string');
 
-    this.pvtData = initData;
+    this.prevData = {} as D;
+    this.data = initData;
 
     this.name = name;
-    Object.defineProperty(this, 'data', {
-      configurable: false,
-      enumerable: true,
-      set() {
-        throwError(true, 'must use change to set data');
-      },
-      get: () => this.pvtData
-    });
   }
 
   /**
-   * 修改数据
+   * 更新数据
    * @param data {object} 数据
-   * @param [mode] {'update' | 'set'} 模式
    */
-  change(data: Partial<D>, mode: ('update' | 'set') = 'update'): void {
-    //验证参数
+  update(data: Partial<D>): void {
+    //更新数据
     throwError(!isObject(data), 'data is not a object');
-    const prevData = this.pvtData;
-    //修改数据
-    if (mode === 'set') {
-      this.pvtData = Object.assign({}, data) as D;
-    } else {
-      this.pvtData = Object.assign({}, this.pvtData, data)
-    }
-    //执行修改后回调
-    this.pvtListeners.forEach(listener => listener.call(this, prevData));
+    //更新数据
+    this.prevData = this.data;
+    this.data = Object.assign({}, this.data, data);
+    //执行更新后回调
+    this.pvtListeners.forEach(listener => listener.call(this));
   }
 
   /**
-   * 订阅数据的修改
-   * @param listener {function(Object):void}  监听函数
+   * 订阅数据的更新
+   * @param listener {function():void}  监听函数
    * @returns 返回取消订阅
    */
-  subscribe(listener: TListener<D>): TUnSubscribe {
+  subscribe(listener: TListener): TUnSubscribe {
     throwError(typeof listener !== 'function', 'listener is not a function');
     //添加到监听列表中
     if (this.pvtListeners.indexOf(listener) === -1) {
