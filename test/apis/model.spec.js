@@ -1,11 +1,10 @@
-import {getIsStore, Model} from "../../src/apis/model";
+import {Model} from "../../src/apis/model";
 
 describe('model', function () {
   it('test construction', function () {
     expect(() => new Model()).toThrow('initData is not a object');
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
     expect(new Model({a: 1, b: 1}).prevData).toEqual({});
-    expect(new Model({}, 'list').name).toBe('list');
   });
   it('test setData', function () {
     const data = {a: 1};
@@ -47,20 +46,5 @@ describe('model', function () {
     expect(listener.mock.calls.length).toBe(1);
     expect(store.prevData.uid).toBe(0);
     expect(store.data.uid).toBe(1);
-  });
-
-  it('test getIsStore', function () {
-    expect(getIsStore(null)).toBeFalsy();
-    expect(getIsStore({})).toBeFalsy();
-    expect(getIsStore(function () {
-
-    })).toBeFalsy();
-
-    expect(getIsStore(new Model({}))).toBeTruthy();
-    expect(getIsStore(new class extends Model {
-      constructor() {
-        super({});
-      }
-    })).toBeTruthy();
   });
 });

@@ -173,15 +173,12 @@ export default UserLoginLog;
 ### Model
 
 ```typescript
-const store = new Model(initData:object,name?:string = '')
+const store = new Model(initData:object)
 ```
 
 数据模型
 
 #### 实例属性
-
-##### name
-返回名称（只读），在构造时定义
 
 ##### data
 返回数据（只读）
@@ -219,18 +216,11 @@ interface ISubscribe {
 订阅数据的修改，返回取消订阅
 
 
-
-### getIsStore
-
-```typescript
-interface IGetIsStore {
-  (target:any):boolean
-}
-```
-
-获取是否是数据容器，也就是数据模型的实例
-
 ## 更新日志
+
+### 6.0.0
+1. 废弃getIsStore，建议用 instanceof 判断
+2. 废弃constructor中name参数
 
 ### 5.0.0
 1. 新增prevData,取消subscribe中prevData参数

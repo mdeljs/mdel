@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.mdel = {}));
-}(this, function (exports) { 'use strict';
+}(this, (function (exports) { 'use strict';
 
   /**
    * 抛出异常
@@ -24,22 +24,17 @@
       return Object.prototype.toString.call(data) === '[object Object]';
   }
 
-  var SIGN = '__MDEL__';
   /**
    * 数据模型
    * @class
    * @example
    */
   var Model = /** @class */ (function () {
-      function Model(initData, name) {
-          if (name === void 0) { name = ''; }
-          this.sign = SIGN;
+      function Model(initData) {
           this.pvtListeners = [];
           throwError(!isObject(initData), 'initData is not a object');
-          throwError(typeof name !== 'string', 'name is not a string');
           this.prevData = {};
           this.data = initData;
-          this.name = name;
       }
       /**
        * 设置数据
@@ -52,8 +47,8 @@
           //更新数据
           this.prevData = this.data;
           this.data = Object.assign({}, this.data, data);
-          //执行更新后回调
-          this.pvtListeners.forEach(function (listener) { return listener.call(_this); });
+          //拷贝并执行回调
+          this.pvtListeners.slice().forEach(function (listener) { return listener.call(_this); });
       };
       /**
        * 订阅数据的更新
@@ -72,23 +67,14 @@
       };
       return Model;
   }());
-  /**
-   * 获取是否是数据容器
-   * @param target {*} 待检测目标
-   * @return {boolean}
-   */
-  function getIsStore(target) {
-      return target && target["sign"] === SIGN;
-  }
 
-  var version = '5.0.0';
+  var version = '6.0.0';
 
   exports.Model = Model;
-  exports.getIsStore = getIsStore;
   exports.isObject = isObject;
   exports.throwError = throwError;
   exports.version = version;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));

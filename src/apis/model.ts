@@ -1,8 +1,6 @@
 import throwError from '../utils/throwError'
 import isObject from '../utils/isObject'
 
-const SIGN = '__MDEL__';
-
 export type TData = object;
 export type TListener = () => void ;
 export type TUnSubscribe = () => void;
@@ -15,19 +13,14 @@ export type TUnSubscribe = () => void;
 export class Model<D extends TData = {}> {
   public data: Readonly<D>;
   public prevData: Readonly<D>;
-  public readonly name: Readonly<string>;
-  public readonly sign: Readonly<string> = SIGN;
 
   private pvtListeners: TListener[] = [];
 
-  constructor(initData: D, name: string = '') {
+  constructor(initData: D) {
     throwError(!isObject(initData), 'initData is not a object');
-    throwError(typeof name !== 'string', 'name is not a string');
 
     this.prevData = {} as D;
     this.data = initData;
-
-    this.name = name;
   }
 
   /**
@@ -40,8 +33,8 @@ export class Model<D extends TData = {}> {
     //更新数据
     this.prevData = this.data;
     this.data = Object.assign({}, this.data, data);
-    //执行更新后回调
-    this.pvtListeners.forEach(listener => listener.call(this));
+    //拷贝并执行回调
+    this.pvtListeners.slice().forEach(listener => listener.call(this));
   }
 
   /**
@@ -58,13 +51,4 @@ export class Model<D extends TData = {}> {
     //返回一个取消监听
     return () => this.pvtListeners = this.pvtListeners.filter(item => item !== listener);
   }
-}
-
-/**
- * 获取是否是数据容器
- * @param target {*} 待检测目标
- * @return {boolean}
- */
-export function getIsStore(target: any): boolean {
-  return target && target["sign"] === SIGN;
 }

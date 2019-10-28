@@ -9,10 +9,8 @@ export declare type TUnSubscribe = () => void;
 export declare class Model<D extends TData = {}> {
     data: Readonly<D>;
     prevData: Readonly<D>;
-    readonly name: Readonly<string>;
-    readonly sign: Readonly<string>;
     private pvtListeners;
-    constructor(initData: D, name?: string);
+    constructor(initData: D);
     /**
      * 设置数据
      * @param data {object} 数据
@@ -25,9 +23,3 @@ export declare class Model<D extends TData = {}> {
      */
     subscribe(listener: TListener): TUnSubscribe;
 }
-/**
- * 获取是否是数据容器
- * @param target {*} 待检测目标
- * @return {boolean}
- */
-export declare function getIsStore(target: any): boolean;
