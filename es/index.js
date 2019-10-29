@@ -42,7 +42,7 @@ var Model = /** @class */ (function () {
         this.prevData = this.data;
         this.data = Object.assign({}, this.data, data);
         //拷贝并执行回调
-        this.pvtListeners.slice().forEach(function (listener) { return listener.call(_this); });
+        this.pvtListeners.forEach(function (listener) { return listener.call(_this); });
     };
     /**
      * 订阅数据的更新

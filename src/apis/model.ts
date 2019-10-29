@@ -34,7 +34,7 @@ export class Model<D extends TData = {}> {
     this.prevData = this.data;
     this.data = Object.assign({}, this.data, data);
     //拷贝并执行回调
-    this.pvtListeners.slice().forEach(listener => listener.call(this));
+    this.pvtListeners.forEach(listener => listener.call(this));
   }
 
   /**
