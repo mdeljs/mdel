@@ -33,8 +33,6 @@
     "@babel/core": "^7.6.4",
     "@babel/plugin-transform-typescript": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
-    "@types/jest": "^24.0.20",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "jest": "^24.9.0",
