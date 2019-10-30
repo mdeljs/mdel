@@ -111,7 +111,7 @@ class UserLoginLog extends React.Component{
     this.sList.setLoading(true);
         
     try{
-      const data = await getRequest('/api/user....');
+      const data = await fetch('/api/user....');
             
       this.sList.setData(data)
     }
@@ -129,7 +129,7 @@ class UserLoginLog extends React.Component{
       return <div>loading</div>
     }
     return this.sList.data.list.map(function(item,index) {
-      return <div key={index}>{item.date}</div>
+      return <div key={index}>{item.content}</div>
     })
   }
 }
@@ -153,7 +153,7 @@ const LoginLogList = observe(function({sUser,sList}) {
     return <div>loading</div>
   }     
   return sList.data.list.map(function(item,index) {
-    return <div key={index}>{item.date}</div>
+    return <div key={index}>{item.content}</div>
   })
 });
 
