@@ -16,27 +16,26 @@
 import {Model} from 'mdel';
 
 class UserModel extends Model{
-    constructor(){
-        super({
-            uid:0
-        });
-    }
-    login(){
-        this.setData({
-            uid:1
-        })
-    }
+  constructor(){
+    super({
+      uid:0
+    });
+  }
+  login(){
+    this.setData({
+      uid:1
+    })
+  }
 }
 
 const userStore = new UserModel();
 const unSubscribe = userStore.subscribe(function(){
-    if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
-        console.log('您已登录');
-    }
+  if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
+    console.log('您已登录');
+  }
 });
 userStore.login();
 unSubscribe();
-
 ```
 
 * es5
@@ -45,9 +44,9 @@ var Model = mdel.Model;
 var userStore = createUserStore();
 
 const unSubscribe = userStore.subscribe(function(){
-    if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
-        console.log('您已登录');
-    }
+  if(userStore.data.uid > 0 && userStore.prevData.uid === 0){
+    console.log('您已登录');
+  }
 });
 
 userStore.login();
@@ -75,62 +74,64 @@ function createUserStore() {
 * 类组件
 
 ```jsx harmony
-///list-model.js
+//models/list.js
 import {Model} from 'mdel';
 
 export default class ListModel extends Model{
   constructor(){
-      super({
-        loading:false,
-        list:[]
-      })
+    super({
+      loading:false,
+      list:[]
+    })
   }
   setLoading(status){
-      this.setData({loading:status})
+    this.setData({
+      loading:status
+    })
   }
   setData(data){
-     this.setData({
-        loading:false,
-        list:data
-     }) 
+    this.setData({
+      loading:false,
+      list:data
+    }) 
   }  
 }
 
-///login-log.jsx
+//login-log.jsx
 import React from 'react'
 import {observe} from 'mdel-react'
-import ListModel from '../model/list-model'
+import ListModel from '../models/list'
 
 @observe
 class UserLoginLog extends React.Component{
-    sUser = userStore;
-    sList = new ListModel();
+  sUser = userStore;
+  sList = new ListModel();
     
-    async componentDidMount(){
-        this.sList.setLoading(true);
+  async componentDidMount(){
+    this.sList.setLoading(true);
         
-        try{
-            const data = await getRequest('/api/user....');
+    try{
+      const data = await getRequest('/api/user....');
             
-            this.sList.setData(data)
-        }
-        catch (e) {
-          this.sList.setLoading(false)
-        }
+      this.sList.setData(data)
     }
+    catch (e) {
+      this.sList.setLoading(false)
+    }
+  }
     
-    render(){
-        if(this.sUser.data.uid < 1){
-            return <div>你还没有登录</div>
-        }
-        
-        if(this.sList.data.loading){
-            return <div>loading</div>
-        }
-        return this.sList.data.list.map(function(item,index) {
-          return <div key={index}>{item.date}</div>
-        })
+  render(){
+    if(this.sUser.data.uid < 1){
+      return <div>你还没有登录</div>
     }
+        
+    if(this.sList.data.loading){
+      return <div>loading</div>
+    }
+    return this.sList.data.list.map(function(item,index) {
+      return <div key={index}>{item.date}</div>
+    })
+  }
 }
 
 export default UserLoginLog;
@@ -144,25 +145,25 @@ import React from 'react'
 import {observe} from 'mdel-react'
 
 const LoginLogList = observe(function({sUser,sList}) {
-   if(sUser.data.uid < 1){
-        return <div>你还没有登录</div>
-   }
+  if(sUser.data.uid < 1){
+    return <div>你还没有登录</div>
+  }
    
-   if(sList.data.loading){
-        return <div>loading</div>
-   }     
-   return sList.data.list.map(function(item,index) {
-        return <div key={index}>{item.date}</div>
-   })
+  if(sList.data.loading){
+    return <div>loading</div>
+  }     
+  return sList.data.list.map(function(item,index) {
+    return <div key={index}>{item.date}</div>
+  })
 });
 
 class UserLoginLog extends React.Component{
-     sUser = userStore;
-     sList = new ListModel();
+  sUser = userStore;
+  sList = new ListModel();
      
-     render(){
-         return <LoginLogList sUser={this.sUser} sList={this.sList}/>
-     }
+  render(){
+    return <LoginLogList sUser={this.sUser} sList={this.sList}/>
+  }
 }
 
 export default UserLoginLog;
@@ -218,7 +219,7 @@ interface ISubscribe {
 
 ## 更新日志
 
-### 6.0.0
+### 6.0.1
 1. 废弃getIsStore，建议用 instanceof 判断
 2. 废弃constructor中name参数
 

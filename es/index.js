@@ -62,6 +62,6 @@ var Model = /** @class */ (function () {
     return Model;
 }());
 
-var version = '6.0.0';
+var version = '6.0.1';
 
 export { Model, isObject, throwError, version };
