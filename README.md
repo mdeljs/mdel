@@ -3,8 +3,6 @@
 
 数据管理器
 
-* 推荐一些数据模型 [链接](https://github.com/mdeljs/mdel-models)
-
 ## 安装
 
 * 安装：`npm install mdel --save`
@@ -13,6 +11,8 @@
   [压缩版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.min.js)
 
 ## 使用
+
+* 推荐一些数据模型 [链接](https://github.com/mdeljs/mdel-models)
 
 ```javascript
 import {Model} from 'mdel';
@@ -221,7 +221,7 @@ interface ISubscribe {
 
 ## 更新日志
 
-### 6.0.3
+### 6.0.4
 1. 废弃getIsStore，建议用 instanceof 判断
 2. 废弃constructor中name参数
 
