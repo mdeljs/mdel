@@ -3,7 +3,7 @@
 
 数据管理器
 
-推荐一些数据模型[链接](https://github.com/mdeljs/mdel-models)
+推荐一些数据模型 [链接](https://github.com/mdeljs/mdel-models)
 
 ## 安装
 
