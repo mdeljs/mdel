@@ -3,7 +3,7 @@
 
 数据管理器
 
-推荐一些数据模型 [链接](https://github.com/mdeljs/mdel-models)
+* 推荐一些数据模型 [链接](https://github.com/mdeljs/mdel-models)
 
 ## 安装
 
@@ -221,7 +221,7 @@ interface ISubscribe {
 
 ## 更新日志
 
-### 6.0.2
+### 6.0.3
 1. 废弃getIsStore，建议用 instanceof 判断
 2. 废弃constructor中name参数
 
