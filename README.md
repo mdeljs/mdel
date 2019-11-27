@@ -91,7 +91,7 @@ export default class ListModel extends Model{
       loading:status
     })
   }
-  setData(data){
+  setItems(data){
     this.setData({
       loading:false,
       list:data
@@ -115,7 +115,7 @@ class UserLoginLog extends React.Component{
     try{
       const data = await fetch('/api/user....');
 
-      this.sList.setData(data)
+      this.sList.setItems(data)
     }
     catch (e) {
       this.sList.setLoading(false)
