@@ -223,7 +223,7 @@ interface ISubscribe {
 
 ### 7.0.0
 1. 优化类型命名
-2. throwError参数调整
+2. 调整throwError参数
 
 ### 6.0.4
 1. 废弃getIsStore，建议用 instanceof 判断
