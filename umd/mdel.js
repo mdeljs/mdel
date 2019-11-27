@@ -6,13 +6,10 @@
 
   /**
    * 抛出异常
-   * @param condition {boolean} 条件
    * @param message {string} 错误信息
    */
-  function throwError(condition, message) {
-      if (condition) {
-          throw new Error(message);
-      }
+  function throwError(message) {
+      throw new Error(message);
   }
 
   /**
@@ -30,11 +27,13 @@
    * @example
    */
   var Model = /** @class */ (function () {
-      function Model(initData) {
+      function Model(initialData) {
           this.pvtListeners = [];
-          throwError(!isObject(initData), 'initData is not a object');
+          if (!isObject(initialData)) {
+              throwError('initialData is not a object');
+          }
           this.prevData = {};
-          this.data = initData;
+          this.data = initialData;
       }
       /**
        * 设置数据
@@ -43,11 +42,13 @@
       Model.prototype.setData = function (data) {
           var _this = this;
           //校验数据
-          throwError(!isObject(data), 'data is not a object');
+          if (!isObject(data)) {
+              throwError('data is not a object');
+          }
           //更新数据
           this.prevData = this.data;
           this.data = Object.assign({}, this.data, data);
-          //拷贝并执行回调
+          //执行回调
           this.pvtListeners.forEach(function (listener) { return listener.call(_this); });
       };
       /**
@@ -57,7 +58,9 @@
        */
       Model.prototype.subscribe = function (listener) {
           var _this = this;
-          throwError(typeof listener !== 'function', 'listener is not a function');
+          if (typeof listener !== 'function') {
+              throwError('listener is not a function');
+          }
           //添加到监听列表中
           if (this.pvtListeners.indexOf(listener) === -1) {
               this.pvtListeners.push(listener);
@@ -68,7 +71,7 @@
       return Model;
   }());
 
-  var version = '6.0.4';
+  var version = '7.0.0';
 
   exports.Model = Model;
   exports.isObject = isObject;

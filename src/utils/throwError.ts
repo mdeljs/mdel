@@ -1,10 +1,7 @@
 /**
  * 抛出异常
- * @param condition {boolean} 条件
  * @param message {string} 错误信息
  */
-export default function throwError(condition: any, message: string): void {
-  if (condition) {
-    throw new Error(message)
-  }
+export default function throwError(message: string): never {
+  throw new Error(message)
 }

@@ -1,16 +1,16 @@
-export declare type TData = object;
-export declare type TListener = () => void;
-export declare type TUnSubscribe = () => void;
+export declare type ModelData = object;
+export declare type ModelListener = () => void;
+export declare type ModelUnSubscribe = () => void;
 /**
  * 数据模型
  * @class
  * @example
  */
-export declare class Model<D extends TData = {}> {
+export declare class Model<D extends ModelData = {}> {
     data: Readonly<D>;
     prevData: Readonly<D>;
     private pvtListeners;
-    constructor(initData: D);
+    constructor(initialData: D);
     /**
      * 设置数据
      * @param data {object} 数据
@@ -21,5 +21,5 @@ export declare class Model<D extends TData = {}> {
      * @param listener {function():void}  监听函数
      * @returns 返回取消订阅
      */
-    subscribe(listener: TListener): TUnSubscribe;
+    subscribe(listener: ModelListener): ModelUnSubscribe;
 }

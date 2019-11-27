@@ -2,7 +2,7 @@ import {Model} from "../../src/apis/model";
 
 describe('model', function () {
   it('test construction', function () {
-    expect(() => new Model()).toThrow('initData is not a object');
+    expect(() => new Model()).toThrow('initialData is not a object');
     expect(new Model({a: 1, b: 1}).data).toEqual({a: 1, b: 1});
     expect(new Model({a: 1, b: 1}).prevData).toEqual({});
   });

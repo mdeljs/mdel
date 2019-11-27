@@ -1,26 +1,28 @@
 import throwError from '../utils/throwError'
 import isObject from '../utils/isObject'
 
-export type TData = object;
-export type TListener = () => void ;
-export type TUnSubscribe = () => void;
+export type ModelData = object;
+export type ModelListener = () => void ;
+export type ModelUnSubscribe = () => void;
 
 /**
  * 数据模型
  * @class
  * @example
  */
-export class Model<D extends TData = {}> {
+export class Model<D extends ModelData = {}> {
   public data: Readonly<D>;
   public prevData: Readonly<D>;
 
-  private pvtListeners: TListener[] = [];
+  private pvtListeners: ModelListener[] = [];
 
-  constructor(initData: D) {
-    throwError(!isObject(initData), 'initData is not a object');
+  constructor(initialData: D) {
+    if (!isObject(initialData)) {
+      throwError('initialData is not a object');
+    }
 
     this.prevData = {} as D;
-    this.data = initData;
+    this.data = initialData;
   }
 
   /**
@@ -29,11 +31,13 @@ export class Model<D extends TData = {}> {
    */
   setData(data: Partial<D>): void {
     //校验数据
-    throwError(!isObject(data), 'data is not a object');
+    if (!isObject(data)) {
+      throwError('data is not a object');
+    }
     //更新数据
     this.prevData = this.data;
     this.data = Object.assign({}, this.data, data);
-    //拷贝并执行回调
+    //执行回调
     this.pvtListeners.forEach(listener => listener.call(this));
   }
 
@@ -42,8 +46,10 @@ export class Model<D extends TData = {}> {
    * @param listener {function():void}  监听函数
    * @returns 返回取消订阅
    */
-  subscribe(listener: TListener): TUnSubscribe {
-    throwError(typeof listener !== 'function', 'listener is not a function');
+  subscribe(listener: ModelListener): ModelUnSubscribe {
+    if (typeof listener !== 'function') {
+      throwError('listener is not a function');
+    }
     //添加到监听列表中
     if (this.pvtListeners.indexOf(listener) === -1) {
       this.pvtListeners.push(listener)

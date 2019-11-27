@@ -7,7 +7,7 @@
 
 * 安装：`npm install mdel --save`
 * 下载：
-  [开发版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.js) 
+  [开发版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.js)
   [压缩版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.min.js)
 
 ## 使用
@@ -58,13 +58,13 @@ function createUserStore() {
   var store = new Model({
     uid:0
   });
-  
+
   store.login = function(){
     store.setData({
       uid:1
     });
   };
-  
+
   return store;
 }
 ```
@@ -95,8 +95,8 @@ export default class ListModel extends Model{
     this.setData({
       loading:false,
       list:data
-    }) 
-  }  
+    })
+  }
 }
 
 //login-log.jsx
@@ -108,25 +108,25 @@ import ListModel from '../models/list'
 class UserLoginLog extends React.Component{
   sUser = userStore;
   sList = new ListModel();
-    
+
   async componentDidMount(){
     this.sList.setLoading(true);
-        
+
     try{
       const data = await fetch('/api/user....');
-            
+
       this.sList.setData(data)
     }
     catch (e) {
       this.sList.setLoading(false)
     }
   }
-    
+
   render(){
     if(this.sUser.data.uid < 1){
       return <div>你还没有登录</div>
     }
-        
+
     if(this.sList.data.loading){
       return <div>loading</div>
     }
@@ -150,10 +150,10 @@ const LoginLogList = observe(function({sUser,sList}) {
   if(sUser.data.uid < 1){
     return <div>你还没有登录</div>
   }
-   
+
   if(sList.data.loading){
     return <div>loading</div>
-  }     
+  }
   return sList.data.list.map(function(item,index) {
     return <div key={index}>{item.content}</div>
   })
@@ -162,7 +162,7 @@ const LoginLogList = observe(function({sUser,sList}) {
 class UserLoginLog extends React.Component{
   sUser = userStore;
   sList = new ListModel();
-     
+
   render(){
     return <LoginLogList sUser={this.sUser} sList={this.sList}/>
   }
@@ -176,7 +176,7 @@ export default UserLoginLog;
 ### Model
 
 ```typescript
-const store = new Model(initData:object)
+const store = new Model(initialData)
 ```
 
 数据模型
@@ -188,9 +188,9 @@ const store = new Model(initData:object)
 
 * 必须使用 **setData** 方法来修改data
 * 建议data的数据结构在初始的时候时确定
-* typescript中可通过泛型来约束data  
+* typescript中可通过泛型来约束data
 ```typescript
-class UserModel extends Model<IData>{}
+class UserModel extends Model<ModelData>{}
 ```
 
 ##### prevData
@@ -212,7 +212,7 @@ interface ISetData {
 
 ```typescript
 interface ISubscribe {
-  (listener: () => void):IUnSubscribe
+  (listener: () => void):ModelUnSubscribe
 }
 ```
 
@@ -220,6 +220,10 @@ interface ISubscribe {
 
 
 ## 更新日志
+
+### 7.0.0
+1. 优化类型命名
+2. throwError参数调整
 
 ### 6.0.4
 1. 废弃getIsStore，建议用 instanceof 判断
