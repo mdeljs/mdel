@@ -7,8 +7,8 @@
 
 * 安装：`npm install mdel --save`
 * 下载：
-  [开发版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.js)
-  [压缩版](https://github.com/yujingwyh/mdel/blob/master/umd/mdel.min.js)
+  [开发版](https://github.com/mdeljs/mdel/blob/master/umd/mdel.js)
+  [压缩版](https://github.com/mdeljs/mdel/blob/master/umd/mdel.min.js)
 
 ## 使用
 
@@ -221,7 +221,7 @@ interface ISubscribe {
 
 ## 更新日志
 
-### 7.0.0
+### 7.0.1
 1. 优化类型命名
 2. 调整throwError参数
 

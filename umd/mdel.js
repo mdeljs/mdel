@@ -71,7 +71,7 @@
       return Model;
   }());
 
-  var version = '7.0.0';
+  var version = '7.0.1';
 
   exports.Model = Model;
   exports.isObject = isObject;
