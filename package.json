@@ -1,6 +1,6 @@
 {
   "name": "mdel",
-  "version": "7.0.1",
+  "version": "8.0.0-alpha.0",
   "description": "数据管理器",
   "license": "MIT",
   "repository": "github:mdeljs/mdel",
@@ -16,7 +16,7 @@
     "email": "yujingwyh@163.com"
   },
   "scripts": {
-    "build": "rollup --config",
+    "build": "npx rollup --config",
     "test": "jest --config=jest.config.json"
   },
   "files": [
@@ -28,7 +28,6 @@
   "main": "umd/index.js",
   "module": "es/index.js",
   "typings": "es/index.d.ts",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-transform-typescript": "^7.6.3",
@@ -40,7 +39,7 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-minify": "^1.0.3",
-    "rollup-plugin-typescript2": "^0.24.3",
-    "typescript": "^3.6.4"
+    "rollup-plugin-typescript2": "^0.30.0",
+    "typescript": "^4.2.4"
   }
 }

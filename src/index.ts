@@ -1,5 +1,7 @@
-export {Model, ModelData, ModelListener, ModelUnSubscribe} from './apis/model'
-export {default as isObject} from './utils/isObject'
-export {default as throwError} from './utils/throwError'
+import { createModel as cm } from "./module/model";
+import { CreateModel } from "./type";
 
-export const version = '7.0.1';
+export { throwError, isObject } from './utils/helper'
+export { Model, Store, PickModelStore, PickModelData, PickStoreData, StoreData, StoreUnobserve } from "./type";
+
+export const createModel: CreateModel = cm;
