@@ -1,6 +1,6 @@
 {
   "name": "mdel",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.2",
   "description": "数据管理器",
   "license": "MIT",
   "repository": "github:mdeljs/mdel",
@@ -24,12 +24,12 @@
   "main": "dist/mdel.js",
   "module": "dist/mdel.module.js",
   "unpkg": "dist/mdel.umd.js",
-  "typings": "src/type.d.ts",
+  "types": "dist/mdel.d.ts",
+  "typings": "dist/index.d.ts",
   "files": [
     "LICENSE",
     "README.md",
-    "dist",
-    "src"
+    "dist"
   ],
   "devDependencies": {
     "@babel/core": "^7.6.4",
