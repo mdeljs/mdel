@@ -17,5 +17,5 @@ export declare function throwError(message: string, name?: string): never;
  * @return {Object}
  */
 export declare function bindThis<T extends {
-    [index: string]: (...args: any) => any;
+    [index: string]: (...args: any[]) => any;
 }>(target: T, thisArg: any): T;
