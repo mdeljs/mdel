@@ -23,7 +23,7 @@ export function throwError(message: string, name = 'mdel'): never {
  * @return {Object}
  */
 export function bindThis<T extends {
-    [index: string]: (...args: any) => any
+    [index: string]: (...args: any[]) => any
 }>(target: T, thisArg: any): T {
     const result = {} as T;
 

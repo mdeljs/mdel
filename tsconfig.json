@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "target": "es5",
-    "declaration":false,
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
     "strictNullChecks": true,
     "strict": false,
     "allowJs": false,
     "resolveJsonModule": true,
     "lib": [
-      "es7",
+      "ESNext",
       "dom"
     ]
   },

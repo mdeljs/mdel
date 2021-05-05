@@ -1,28 +1,28 @@
-import { isObject, throwError } from "../utils/helper";
-import { ConvertData, PickModelData, Store, StoreCore, StoreData } from "../type";
-import { Observable } from "../utils/observe";
+import {isObject, throwError} from "../utils/helper";
+import {ConvertData, PickModelData, Store, StoreCore, StoreData} from "../type";
+import {Observable} from "../utils/observe";
 
 function convertData<S extends Store<any>>(store: S): ConvertData<S> {
-    const data = getStoreData(store as any);
+  const data = getStoreData(store as any);
 
-    function findData(target: any) {
-        if (target && target.core && target.core.isStore) {
-            // @ts-ignore
-            return convertData(target);
-        } else if (isObject(target)) {
-            return Object.keys(target).reduce((previousValue, currentValue) => {
-                previousValue[currentValue] = findData(target[currentValue]);
+  function findData(target: any) {
+    if (target && target.core && target.core.isStore) {
+      // @ts-ignore
+      return convertData(target);
+    } else if (isObject(target)) {
+      return Object.keys(target).reduce((previousValue, currentValue) => {
+        previousValue[currentValue] = findData(target[currentValue]);
 
-                return previousValue;
-            }, {});
-        } else if (Array.isArray(target)) {
-            return target.map(item => findData(item));
-        }
-
-        return target;
+        return previousValue;
+      }, {});
+    } else if (Array.isArray(target)) {
+      return target.map(item => findData(item));
     }
 
-    return findData(data);
+    return target;
+  }
+
+  return findData(data);
 }
 
 export function checkData(data: any) {
@@ -46,30 +46,29 @@ export function getStoreData<D extends StoreData, S extends Store<D>>(store: S):
 }
 
 export class BaseStore implements Store<{}> {
-    core: { __observable: Observable } & StoreCore<any, any> = {
-        isStore: true,
-        setData: (data) => {
-            checkData(data);
+  core: { __observable: Observable } & StoreCore<any, any> = {
+    isStore: true,
+    setData: (data) => {
+      checkData(data);
 
-            const previousData = getStoreData(this);
-            Object.assign(this, data)
-            this.core.__observable.notifyObservers(this, previousData);
-        },
-        convertData: () => {
-            return convertData(this);
-        },
-        observe: (observer) => {
-            this.core.__observable.addObserver(observer);
-            return () => this.core.__observable.removeObserver(observer);
-        },
-        //需子类实现
-        resetData: () => {
-        },
-        //需子类实现
-        baseActions: {},
+      const previousData = getStoreData(this);
+      (<any>Object).assign(this, data)
+      this.core.__observable.notifyObservers(this, previousData);
+    },
+    convertData: () => {
+      return convertData(this);
+    },
+    observe: (observer) => {
+      this.core.__observable.addObserver(observer);
+      return () => this.core.__observable.removeObserver(observer);
+    },
+    //需子类实现
+    resetData: () => {
+    },
+    //需子类实现
+    baseActions: {},
 
-        __observable: new Observable()
-    }
-
-    actions = {}
+    __observable: new Observable()
+  }
+  actions: {}
 }

@@ -1,5 +1,4 @@
-import { Store, StoreData, StoreObserver } from "../type";
-
+import {Store, StoreData, StoreObserver} from "../type";
 
 export class Observable {
     observes: StoreObserver<any>[] = [];
